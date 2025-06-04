@@ -159,11 +159,9 @@ class Clinica:
             raise MedicoNoDisponibleException("Médico no encontrado.")
         medico = self.__medicos__[matricula]
         paciente = self.__pacientes__[dni]
-        # Validar que el médico atienda esa especialidad ese día
         dia_semana = self.obtener_dia_semana_en_espanol(fecha_hora)
-        if not any(e.obtener_especialidad().lower() == especialidad.lower() and e.verificar_dia(dia_semana) for e in medico._Medico__especialidades__):
+        if not any(e.obtener_especialidad().lower() == especialidad.lower() and e.verificar_dia(dia_semana) for e in medico.__especialidades__):
             raise MedicoNoDisponibleException("El médico no atiende esa especialidad ese día.")
-        # Validar que no haya turno duplicado
         for t in self.__turnos__:
             if t.obtener_medico().obtener_matricula() == matricula and t.obtener_fecha_hora() == fecha_hora:
                 raise TurnoOcupadoException("El médico ya tiene un turno en ese horario.")
